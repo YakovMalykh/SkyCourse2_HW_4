@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RequestMapping("/employee")
 @RestController
 public class EmployeeController {
@@ -16,22 +18,22 @@ public class EmployeeController {
     }
 
     @GetMapping("/print")//добавил метод, чтобы понимать как именяется массив сотрудников
-    private String printEmployeeList() {
+    private List printEmployeeList() {
         return employeeService.print();
     }
 
     @GetMapping("/add")
-    public Employee addEmployee(@RequestParam String firstName, @RequestParam String lastName) {
+    public Employee addEmployee(@RequestParam ("name") String firstName, @RequestParam ("surname") String lastName) {
         return employeeService.addEmployee(firstName, lastName);
     }
 
     @GetMapping("/remove")
-    public Employee removeEmployee(@RequestParam String firstName, @RequestParam String lastName) {
+    public Employee removeEmployee(@RequestParam ("name") String firstName, @RequestParam ("surname") String lastName) {
         return employeeService.removeEmployee(firstName, lastName);
     }
 
     @GetMapping("/find")
-    public Employee findEmployee(@RequestParam String firstName, @RequestParam String lastName) {
+    public Employee findEmployee(@RequestParam ("name") String firstName, @RequestParam ("surname") String lastName) {
         return employeeService.findEmployee(firstName, lastName);
     }
 

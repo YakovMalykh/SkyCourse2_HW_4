@@ -1,59 +1,51 @@
 package pro.sky.java.course2.skycourse2_hw_4;
 
+import jdk.jfr.StackTrace;
 import org.springframework.stereotype.Service;
+import pro.sky.java.course2.skycourse2_hw_4.Exceptions.badRequestEmployeeException;
+import pro.sky.java.course2.skycourse2_hw_4.Exceptions.internalServerErrorException;
+import pro.sky.java.course2.skycourse2_hw_4.Exceptions.notFoundEmployeeException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class EmployeeService {
-    Employee[] employees = new Employee[3];
+    List<Employee> employees = new ArrayList<>();
 
     public Employee addEmployee(String firstName, String lastName) {
         Employee person = new Employee(firstName, lastName);
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i] == null) {
-                continue;
-            } else if (employees[i].equals(person)) {
-                throw new badRequestEmployeeException();
-            }
+        if (employees.contains(person)) {
+            throw new badRequestEmployeeException("уже имеется такой сотрудник");
+        } else {
+            employees.add(person);
+            return person;
         }
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i] == null) {
-                employees[i] = person;
-                return employees[i];
-            }
-        }
-        throw new internalServerErrorException();
+
     }
 
     public Employee removeEmployee(String firstName, String lastName) {
         Employee person = new Employee(firstName, lastName);
-        for (int i = 0; i < employees.length; i++) {
-            if (person.equals(employees[i])) {
-                employees[i] = null;
-                return person;
-            }
+
+        if (employees.contains(person)) {
+            employees.remove(person);
+            return person;
+        } else {
+            throw new notFoundEmployeeException();
         }
-        throw new notFoundEmployeeException();
+
     }
 
     public Employee findEmployee(String firstName, String lastName) {
         Employee person = new Employee(firstName, lastName);
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i] == null) {
-                continue;
-            } else if (employees[i].equals(person)) {
-                return employees[i];
-            }
+        if (employees.contains(person)) {
+            return person;
+        } else {
+            throw new notFoundEmployeeException();
         }
-        throw new notFoundEmployeeException();
     }
 
-    public String print() {
-        String s = "";
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i] != null) {
-                s = s + employees[i].toString();
-            }
-        }
-        return s;
+    public List print() {
+        return employees;
     }
 }
