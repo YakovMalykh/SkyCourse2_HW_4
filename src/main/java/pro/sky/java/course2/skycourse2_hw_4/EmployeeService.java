@@ -6,46 +6,42 @@ import pro.sky.java.course2.skycourse2_hw_4.Exceptions.badRequestEmployeeExcepti
 import pro.sky.java.course2.skycourse2_hw_4.Exceptions.internalServerErrorException;
 import pro.sky.java.course2.skycourse2_hw_4.Exceptions.notFoundEmployeeException;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class EmployeeService {
-    List<Employee> employees = new ArrayList<>();
+    Map<String, Employee> employees = new HashMap<>();
 
     public Employee addEmployee(String firstName, String lastName) {
+        String personKey = firstName + lastName;
         Employee person = new Employee(firstName, lastName);
-        if (employees.contains(person)) {
+        if (employees.containsKey(personKey)) {
             throw new badRequestEmployeeException("уже имеется такой сотрудник");
         } else {
-            employees.add(person);
-            return person;
+            employees.put(personKey, person);
         }
-
+        return person;
     }
 
     public Employee removeEmployee(String firstName, String lastName) {
-        Employee person = new Employee(firstName, lastName);
-
-        if (employees.contains(person)) {
-            employees.remove(person);
-            return person;
+        String personKey = firstName + lastName;
+        if (!employees.containsKey(personKey)) {
+            throw new notFoundEmployeeException("такого сотрудника нет");
         } else {
-            throw new notFoundEmployeeException();
+            return employees.remove(personKey);
         }
-
     }
 
     public Employee findEmployee(String firstName, String lastName) {
-        Employee person = new Employee(firstName, lastName);
-        if (employees.contains(person)) {
-            return person;
+        String personKey = firstName + lastName;
+        if (employees.containsKey(personKey)) {
+            return employees.get(personKey);
         } else {
-            throw new notFoundEmployeeException();
+            throw new notFoundEmployeeException("такого сотрудника нет");
         }
     }
+    public Collection print() {
 
-    public List print() {
-        return employees;
+        return employees.values();
     }
 }
