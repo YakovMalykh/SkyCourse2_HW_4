@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
 import java.util.List;
 
 @RequestMapping("/employee")
@@ -18,7 +19,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/print")//добавил метод, чтобы понимать как именяется массив сотрудников
-    private List printEmployeeList() {
+    private Collection printEmployeeList() {
         return employeeService.print();
     }
 
