@@ -19,18 +19,21 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Optional<Employee> maxSalaryEmployee(Integer departmentId) {
+        chekDepartment(departmentId);
         return printDepartmentComposition(departmentId).stream()
                 .max(Comparator.comparingInt(employee -> employee.getSalary()));
     }
 
     @Override
     public Optional<Employee> minSalaryEmployee(Integer departmentId) {
+        chekDepartment(departmentId);
         return printDepartmentComposition(departmentId).stream()
                 .min(Comparator.comparingInt(employee -> employee.getSalary()));
     }
 
     @Override
     public Collection<Employee> printDepartmentComposition(Integer departmentId) {
+        chekDepartment(departmentId);
         return employeeService.employees.values().stream()
                 .filter(p -> p.getDepartmentId() == departmentId)
                 .collect(Collectors.toList());
@@ -43,5 +46,10 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .collect(Collectors.toList());
     }
 
+    private void chekDepartment(Integer departmentId) {
+        if (departmentId < 1 || departmentId > 5) {
+            throw new IllegalArgumentException("Такого отдела не существует");
+        }
+    }
 
 }
