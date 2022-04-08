@@ -1,20 +1,18 @@
 package pro.sky.java.course2.skycourse2_hw_4;
 
-import jdk.jfr.StackTrace;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course2.skycourse2_hw_4.Exceptions.badRequestEmployeeException;
-import pro.sky.java.course2.skycourse2_hw_4.Exceptions.internalServerErrorException;
 import pro.sky.java.course2.skycourse2_hw_4.Exceptions.notFoundEmployeeException;
 
 import java.util.*;
 
 @Service
 public class EmployeeService {
-    Map<String, Employee> employees = new HashMap<>();
+   public Map<String, Employee> employees = new HashMap<>();
 
-    public Employee addEmployee(String firstName, String lastName) {
+    public Employee addEmployee(String firstName, String lastName, Integer salary, Integer department) {
         String personKey = firstName + lastName;
-        Employee person = new Employee(firstName, lastName);
+        Employee person = new Employee(firstName, lastName, salary, department);
         if (employees.containsKey(personKey)) {
             throw new badRequestEmployeeException("уже имеется такой сотрудник");
         } else {
@@ -40,6 +38,7 @@ public class EmployeeService {
             throw new notFoundEmployeeException("такого сотрудника нет");
         }
     }
+
     public Collection print() {
 
         return employees.values();
