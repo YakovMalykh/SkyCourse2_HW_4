@@ -46,6 +46,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                 .collect(Collectors.toList());
     }
 
+
     private void chekDepartment(Integer departmentId) {
         if (departmentId < 1 || departmentId > 5) {
             throw new IllegalArgumentException("Такого отдела не существует");

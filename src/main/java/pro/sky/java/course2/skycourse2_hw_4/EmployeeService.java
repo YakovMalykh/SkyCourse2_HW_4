@@ -1,5 +1,6 @@
 package pro.sky.java.course2.skycourse2_hw_4;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 import pro.sky.java.course2.skycourse2_hw_4.Exceptions.badRequestEmployeeException;
 import pro.sky.java.course2.skycourse2_hw_4.Exceptions.notFoundEmployeeException;
@@ -8,11 +9,13 @@ import java.util.*;
 
 @Service
 public class EmployeeService {
-   public Map<String, Employee> employees = new HashMap<>();
+    public Map<String, Employee> employees = new HashMap<>();
 
     public Employee addEmployee(String firstName, String lastName, Integer salary, Integer department) {
-        String personKey = firstName + lastName;
-        Employee person = new Employee(firstName, lastName, salary, department);
+        String name = checkInputStrings(firstName);
+        String surname = checkInputStrings(lastName);
+        String personKey = name + surname;
+        Employee person = new Employee(name, surname, salary, department);
         if (employees.containsKey(personKey)) {
             throw new badRequestEmployeeException("уже имеется такой сотрудник");
         } else {
@@ -22,7 +25,9 @@ public class EmployeeService {
     }
 
     public Employee removeEmployee(String firstName, String lastName) {
-        String personKey = firstName + lastName;
+        String name = checkInputStrings(firstName);
+        String surname = checkInputStrings(lastName);
+        String personKey = name + surname;
         if (!employees.containsKey(personKey)) {
             throw new notFoundEmployeeException("такого сотрудника нет");
         } else {
@@ -31,7 +36,9 @@ public class EmployeeService {
     }
 
     public Employee findEmployee(String firstName, String lastName) {
-        String personKey = firstName + lastName;
+        String name = checkInputStrings(firstName);
+        String surname = checkInputStrings(lastName);
+        String personKey = name + surname;
         if (employees.containsKey(personKey)) {
             return employees.get(personKey);
         } else {
@@ -43,4 +50,14 @@ public class EmployeeService {
 
         return employees.values();
     }
+
+    private String checkInputStrings(String string) {
+
+        if (!StringUtils.isAlpha(string)) {
+            throw new badRequestEmployeeException("введены недопустимые символы");//как сделать так,
+            // чтобы это сообщение выводилось в консоль?
+        }
+        return StringUtils.capitalize(string);
+    }
+
 }
