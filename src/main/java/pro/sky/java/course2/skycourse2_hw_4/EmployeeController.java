@@ -12,29 +12,32 @@ import java.util.List;
 @RestController
 public class EmployeeController {
 
-    private final EmployeeService employeeService;
+    public final EmployeeService employeeService;
 
     public EmployeeController(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
-    @GetMapping("/print")//добавил метод, чтобы понимать как именяется массив сотрудников
+    @GetMapping(value = "/print")
     private Collection printEmployeeList() {
         return employeeService.print();
     }
 
     @GetMapping("/add")
-    public Employee addEmployee(@RequestParam ("name") String firstName, @RequestParam ("surname") String lastName) {
-        return employeeService.addEmployee(firstName, lastName);
+    public Employee addEmployee(@RequestParam("name") String firstName,
+                                @RequestParam("surname") String lastName,
+                                @RequestParam("salary") Integer salary,
+                                @RequestParam("department") Integer department) {
+        return employeeService.addEmployee(firstName, lastName, salary,department);
     }
 
     @GetMapping("/remove")
-    public Employee removeEmployee(@RequestParam ("name") String firstName, @RequestParam ("surname") String lastName) {
+    public Employee removeEmployee(@RequestParam("name") String firstName, @RequestParam("surname") String lastName) {
         return employeeService.removeEmployee(firstName, lastName);
     }
 
     @GetMapping("/find")
-    public Employee findEmployee(@RequestParam ("name") String firstName, @RequestParam ("surname") String lastName) {
+    public Employee findEmployee(@RequestParam("name") String firstName, @RequestParam("surname") String lastName) {
         return employeeService.findEmployee(firstName, lastName);
     }
 
