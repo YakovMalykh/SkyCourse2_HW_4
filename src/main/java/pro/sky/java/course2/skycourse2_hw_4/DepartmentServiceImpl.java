@@ -10,9 +10,9 @@ import java.util.stream.Collectors;
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
-    private final EmployeeService employeeService;
+    private final EmployeeServiceImpl employeeService;
 
-    public DepartmentServiceImpl(EmployeeService employeeService) {
+    public DepartmentServiceImpl(EmployeeServiceImpl employeeService) {
 
         this.employeeService = employeeService;
     }

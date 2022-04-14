@@ -1,63 +1,12 @@
 package pro.sky.java.course2.skycourse2_hw_4;
 
-import org.apache.commons.lang3.StringUtils;
-import org.springframework.stereotype.Service;
-import pro.sky.java.course2.skycourse2_hw_4.Exceptions.badRequestEmployeeException;
-import pro.sky.java.course2.skycourse2_hw_4.Exceptions.notFoundEmployeeException;
+import java.util.Collection;
 
-import java.util.*;
+public interface EmployeeService {
+    Employee addEmployee(String firstName, String lastName, Integer salary, Integer department);
+    Employee removeEmployee(String firstName, String lastName);
+    Employee findEmployee(String firstName, String lastName);
 
-@Service
-public class EmployeeService {
-    public Map<String, Employee> employees = new HashMap<>();
 
-    public Employee addEmployee(String firstName, String lastName, Integer salary, Integer department) {
-        String name = checkInputStrings(firstName);
-        String surname = checkInputStrings(lastName);
-        String personKey = name + surname;
-        Employee person = new Employee(name, surname, salary, department);
-        if (employees.containsKey(personKey)) {
-            throw new badRequestEmployeeException("уже имеется такой сотрудник");
-        } else {
-            employees.put(personKey, person);
-        }
-        return person;
-    }
-
-    public Employee removeEmployee(String firstName, String lastName) {
-        String name = checkInputStrings(firstName);
-        String surname = checkInputStrings(lastName);
-        String personKey = name + surname;
-        if (!employees.containsKey(personKey)) {
-            throw new notFoundEmployeeException("такого сотрудника нет");
-        } else {
-            return employees.remove(personKey);
-        }
-    }
-
-    public Employee findEmployee(String firstName, String lastName) {
-        String name = checkInputStrings(firstName);
-        String surname = checkInputStrings(lastName);
-        String personKey = name + surname;
-        if (employees.containsKey(personKey)) {
-            return employees.get(personKey);
-        } else {
-            throw new notFoundEmployeeException("такого сотрудника нет");
-        }
-    }
-
-    public Collection print() {
-
-        return employees.values();
-    }
-
-    private String checkInputStrings(String string) {
-
-        if (!StringUtils.isAlpha(string)) {
-            throw new badRequestEmployeeException("введены недопустимые символы");//как сделать так,
-            // чтобы это сообщение выводилось в консоль?
-        }
-        return StringUtils.capitalize(string);
-    }
-
+    Collection print();
 }
