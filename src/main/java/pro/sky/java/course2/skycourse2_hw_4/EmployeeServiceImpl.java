@@ -9,8 +9,13 @@ import java.util.*;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
-    public Map<String, Employee> employees = new HashMap<>();
+    private Map<String, Employee> employees = new HashMap<>();
 
+    public Map<String, Employee> getEmployees() {
+        return employees;
+    }
+
+    @Override
     public Employee addEmployee(String firstName, String lastName, Integer salary, Integer department) {
         String name = checkInputStrings(firstName);
         String surname = checkInputStrings(lastName);
@@ -21,8 +26,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         } else {
             employees.put(personKey, person);
         }
-        return person;    }
+        return person;
+    }
 
+    @Override
     public Employee removeEmployee(String firstName, String lastName) {
         String name = checkInputStrings(firstName);
         String surname = checkInputStrings(lastName);
@@ -34,6 +41,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
+    @Override
     public Employee findEmployee(String firstName, String lastName) {
         String name = checkInputStrings(firstName);
         String surname = checkInputStrings(lastName);
@@ -45,18 +53,17 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
     }
 
+    @Override
     public Collection print() {
-
         return employees.values();
     }
 
-    private String checkInputStrings(String string) {
-
+    public String checkInputStrings(String string) {
         if (!StringUtils.isAlpha(string)) {
-            throw new BadRequestEmployeeException("введены недопустимые символы");//как сделать так,
-            // чтобы это сообщение выводилось в консоль?
+            throw new BadRequestEmployeeException("введены недопустимые символы");
         }
+        string = StringUtils.lowerCase(string);
         return StringUtils.capitalize(string);
-    }
+    }//сделал этот метод публичным, чтобы его тоже протестировать
 
 }

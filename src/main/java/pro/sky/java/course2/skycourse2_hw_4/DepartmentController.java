@@ -33,7 +33,7 @@ public class DepartmentController {
         return departmentService.printDepartmentComposition(departmentId);
     }
     @GetMapping("/all")
-    public Collection<String> printAllEmployee() {
+    public Collection<Employee> printAllEmployee() {
         return departmentService.printAllEmployee();
     }
 

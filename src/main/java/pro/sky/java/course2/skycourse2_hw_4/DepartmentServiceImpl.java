@@ -34,20 +34,19 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Collection<Employee> printDepartmentComposition(Integer departmentId) {
         chekDepartment(departmentId);
-        return employeeService.employees.values().stream()
+        return employeeService.getEmployees().values().stream()
                 .filter(p -> p.getDepartmentId() == departmentId)
                 .collect(Collectors.toList());
     }
 
     @Override
-    public Collection<String> printAllEmployee() {
-        return employeeService.employees.values().stream()
-                .map(p -> p.toString())
+    public Collection<Employee> printAllEmployee() {
+        return employeeService.getEmployees().values().stream()
                 .collect(Collectors.toList());
     }
 
-
-    private void chekDepartment(Integer departmentId) {
+    //сделал метод публичным, чтобы протестировать его
+    public void chekDepartment(Integer departmentId) {
         if (departmentId < 1 || departmentId > 5) {
             throw new IllegalArgumentException("Такого отдела не существует");
         }
